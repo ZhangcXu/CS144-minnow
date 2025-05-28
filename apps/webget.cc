@@ -9,21 +9,20 @@ using namespace std;
 
 void get_URL( const string& host, const string& path )
 {
-  Address address(host, "http");
+  Address address( host, "http" );
   TCPSocket socket;
-  socket.connect(address);
+  socket.connect( address );
 
   std::string url = "GET " + path + " HTTP/1.1\r\n";
   url = url + "Host: " + host + "\r\n";
   url = url + "Connection: close\r\n";
   url = url + "\r\n";
-  std::string_view buffer(url);
+  std::string_view buffer( url );
 
-  socket.write(buffer);
+  socket.write( buffer );
   std::string receive_buffer;
-  while (!socket.eof())
-  {
-    socket.read(receive_buffer);
+  while ( !socket.eof() ) {
+    socket.read( receive_buffer );
     cout << receive_buffer;
   }
 }

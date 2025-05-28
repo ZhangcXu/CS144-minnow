@@ -2,24 +2,24 @@
 #include "iostream"
 using namespace std;
 
-ByteStream::ByteStream( uint64_t capacity ) : capacity_( capacity ){}
+ByteStream::ByteStream( uint64_t capacity ) : capacity_( capacity ) {}
 
 void Writer::push( string data )
 {
-  if (Endflag) return;  // 不能再写了
+  if ( Endflag )
+    return; // 不能再写了
   std::string data_cut = "";
-  if (static_cast<uint64_t>(data.size()) > capacity_ - size_){
-    for (uint64_t idx=0; idx<capacity_ - size_; idx++){
+  if ( static_cast<uint64_t>( data.size() ) > capacity_ - size_ ) {
+    for ( uint64_t idx = 0; idx < capacity_ - size_; idx++ ) {
       data_cut += data[idx];
     }
     bytes_push += capacity_ - size_;
     size_ = capacity_;
-    
-  }
-  else {
+
+  } else {
     data_cut = data;
-    size_ += static_cast<uint64_t>(data.size());
-    bytes_push += static_cast<uint64_t>(data.size());
+    size_ += static_cast<uint64_t>( data.size() );
+    bytes_push += static_cast<uint64_t>( data.size() );
   }
   data_ += data_cut;
 }
@@ -34,7 +34,7 @@ bool Writer::is_closed() const
   return Endflag;
 }
 
-uint64_t Writer::available_capacity() const 
+uint64_t Writer::available_capacity() const
 {
   return capacity_ - size_;
 }
@@ -46,19 +46,18 @@ uint64_t Writer::bytes_pushed() const
 
 string_view Reader::peek() const
 {
-  return std::string_view(data_.data(), size_);
+  return std::string_view( data_.data(), size_ );
 }
 
 void Reader::pop( uint64_t len )
 {
-  if (size_ < len) {
+  if ( size_ < len ) {
     bytes_pop += size_;
     data_.clear();
     size_ = 0;
-  }
-  else{
+  } else {
     bytes_pop += len;
-    data_.erase(0, static_cast<size_t>(len));
+    data_.erase( 0, static_cast<size_t>( len ) );
     size_ -= len;
   }
 }
@@ -77,4 +76,3 @@ uint64_t Reader::bytes_popped() const
 {
   return bytes_pop;
 }
-
