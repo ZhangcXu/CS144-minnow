@@ -8,7 +8,7 @@ class Reassembler
 public:
   // Construct Reassembler to write into given ByteStream.
   explicit Reassembler( ByteStream&& output ) : output_( std::move( output ) ) ,
-    flush_() {}
+    dict_() {}
 
   /*
    * Insert a new substring to be reassembled into a ByteStream.
@@ -45,6 +45,8 @@ public:
 
 private:
   ByteStream output_;
-  std::map<uint64_t, std::string> flush_;
-  uint64_t first_unassembled = 0;
+  // std::map<uint64_t, std::string> flush_;
+  std::map<uint64_t, char> dict_;
+  uint64_t first_unassembled = 0, all_index = 0;
+  bool is_end = false;
 };
