@@ -42,6 +42,10 @@ public:
   // Access output stream writer, but const-only (can't write from outside)
   const Writer& writer() const { return output_.writer(); }
 
+  // Accessors for internal state (I am not sure if these are needed, for they are used for tcp_recevier.cc)
+  uint64_t get_first_unassembled() const { return first_unassembled; }
+  uint64_t get_capacity() const { return output_.writer().available_capacity(); }
+
 private:
   ByteStream output_;
   std::map<uint64_t, char> dict_;

@@ -7,6 +7,19 @@ void Reassembler::insert( uint64_t first_index, string data, bool is_last_substr
 {
   uint64_t first_unacceptable = first_unassembled + output_.writer().available_capacity();
   uint64_t last_index = first_index + static_cast<uint64_t>( data.size() );
+
+  // if ( is_last_substring ) {
+  //   is_end = true;
+  //   all_index = last_index;
+  // }
+  // if ( first_unassembled == all_index && is_end ) {
+  //   output_.writer().close();
+  //   return;
+  // }
+  // if (data.empty()){
+  //   return;
+  // }
+
   if ( first_index >= first_unacceptable || last_index <= first_unassembled ) { // 头都出去了或者尾都在前面
     if ( is_last_substring ) {
       is_end = true;
@@ -54,7 +67,7 @@ void Reassembler::insert( uint64_t first_index, string data, bool is_last_substr
     is_end = true;
     all_index = last_index;
   }
-  if ( first_unassembled == all_index && is_end ) {
+  if ( is_end && first_unassembled == all_index ) {
     output_.writer().close();
   }
 }

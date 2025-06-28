@@ -8,7 +8,8 @@ class TCPReceiver
 {
 public:
   // Construct with given Reassembler
-  explicit TCPReceiver( Reassembler&& reassembler ) : reassembler_( std::move( reassembler ) ) {}
+  explicit TCPReceiver( Reassembler&& reassembler ) : reassembler_( std::move( reassembler ) ),
+    zero_point{0}, last_point{0}, has_syn_(false), has_fin_(false) {}
 
   /*
    * The TCPReceiver receives TCPSenderMessages, inserting their payload into the Reassembler
@@ -27,4 +28,6 @@ public:
 
 private:
   Reassembler reassembler_;
+  Wrap32 zero_point, last_point; // The zero point for sequence numbers, initialized when SYN is received
+  bool has_syn_, has_fin_; // Whether the SYN has been received
 };
